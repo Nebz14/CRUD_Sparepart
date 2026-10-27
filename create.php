@@ -4,27 +4,33 @@ require_once 'connection.php';
 $error_msg = "";
 
 if (isset($_POST['submit'])) {
-    $kode_sku    = $_POST['kode_sku'];
-    $nama_barang = $_POST['nama_barang'];
+    $kode_sku    = trim($_POST['kode_sku']);
+    $nama_barang = trim($_POST['nama_barang']);
     $kategori    = $_POST['kategori'];
     $harga       = $_POST['harga'];
     $stok        = $_POST['stok'];
 
-    // Upload Gambar
-    $nama_file   = $_FILES['gambar']['name'];
-    $tmp_file    = $_FILES['gambar']['tmp_name'];
+    // 1. Process Upload Gambar Manual
     $path_simpan = "";
+    if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
+        $nama_file   = $_FILES['gambar']['name'];
+        $tmp_file    = $_FILES['gambar']['tmp_name'];
+        
+        // Ambil ekstensi file
+        $ext = strtolower(pathinfo($nama_file, PATHINFO_EXTENSION));
+        $allowed_ext = ['jpg', 'jpeg', 'png', 'webp'];
 
-    if (!empty($nama_file)) {
-        $nama_file_baru = time() . '-' . basename($nama_file);
-        $target_dir     = "img/" . $nama_file_baru;
+        if (in_array($ext, $allowed_ext)) {
+            $nama_file_baru = time() . '-' . uniqid() . '.' . $ext;
+            $target_dir     = "img/" . $nama_file_baru;
 
-        if (move_uploaded_file($tmp_file, $target_dir)) {
-            $path_simpan = $target_dir;
+            if (move_uploaded_file($tmp_file, $target_dir)) {
+                $path_simpan = $target_dir;
+            }
         }
     }
 
-    // Query SQL
+    // 2. Query INSERT menggunakan Prepared Statement
     $sql = "INSERT INTO tb_produk (kode_sku, nama_barang, kategori, harga, stok, gambar_url) 
             VALUES (:kode_sku, :nama_barang, :kategori, :harga, :stok, :gambar_url)";
     
@@ -39,13 +45,20 @@ if (isset($_POST['submit'])) {
             ':gambar_url'  => $path_simpan
         ]);
         
-        // Hapus alert dulu sementara untuk testing
-        echo "BERHASIL SIMPAN! <a href='index.php'>Lihat Data</a>";
-        exit;
-        
+        if ($result) {
+            echo "<script>
+                    alert('Berhasil menyimpan data!');
+                    window.location.href='index.php';
+                  </script>";
+            exit;
+        }
     } catch (PDOException $e) {
-        // Tampilkan error database langsung di layar
-        die("Error Database: " . $e->getMessage());
+        // Menangkap error jika SKU duplikat atau kolom tidak cocok
+        if ($e->getCode() == 23000) {
+            $error_msg = "Kode SKU '$kode_sku' sudah digunakan. Gunakan SKU lain!";
+        } else {
+            $error_msg = "Error Database: " . $e->getMessage();
+        }
     }
 }
 ?>
@@ -64,10 +77,9 @@ if (isset($_POST['submit'])) {
     <div class="row justify-content-center">
         <div class="col-md-8">
             
-            <!-- Alert jika ada error -->
             <?php if (!empty($error_msg)): ?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Error!</strong> <?= $error_msg; ?>
+                    <strong>Gagal Simpan!</strong> <?= htmlspecialchars($error_msg); ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php endif; ?>
@@ -115,7 +127,6 @@ if (isset($_POST['submit'])) {
                         
                         <div class="d-flex justify-content-between">
                             <a href="index.php" class="btn btn-secondary">Kembali</a>
-                            <!-- Pastikan type="submit" dan name="submit" ada -->
                             <button type="submit" name="submit" class="btn btn-success">Simpan Produk</button>
                         </div>
                     </form>
@@ -124,6 +135,7 @@ if (isset($_POST['submit'])) {
         </div>
     </div>
 </div>
+
+<script href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-<!-- anjay -->
