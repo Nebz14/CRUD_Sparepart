@@ -10,27 +10,28 @@ if (isset($_POST['submit'])) {
     $harga       = $_POST['harga'];
     $stok        = $_POST['stok'];
 
-    // 1. Process Upload Gambar Manual
     $path_simpan = "";
+    $target_dir = "img/";
+    
+    if (!is_dir($target_dir)) {
+        mkdir($target_dir, 0777, true);
+    }
+
     if (isset($_FILES['gambar']) && $_FILES['gambar']['error'] === UPLOAD_ERR_OK) {
         $nama_file   = $_FILES['gambar']['name'];
         $tmp_file    = $_FILES['gambar']['tmp_name'];
         
-        // Ambil ekstensi file
         $ext = strtolower(pathinfo($nama_file, PATHINFO_EXTENSION));
         $allowed_ext = ['jpg', 'jpeg', 'png', 'webp'];
 
         if (in_array($ext, $allowed_ext)) {
             $nama_file_baru = time() . '-' . uniqid() . '.' . $ext;
-            $target_dir     = "img/" . $nama_file_baru;
+            $path_simpan    = $target_dir . $nama_file_baru;
 
-            if (move_uploaded_file($tmp_file, $target_dir)) {
-                $path_simpan = $target_dir;
-            }
+            move_uploaded_file($tmp_file, $path_simpan);
         }
     }
 
-    // 2. Query INSERT menggunakan Prepared Statement
     $sql = "INSERT INTO tb_produk (kode_sku, nama_barang, kategori, harga, stok, gambar_url) 
             VALUES (:kode_sku, :nama_barang, :kategori, :harga, :stok, :gambar_url)";
     
@@ -53,9 +54,8 @@ if (isset($_POST['submit'])) {
             exit;
         }
     } catch (PDOException $e) {
-        // Menangkap error jika SKU duplikat atau kolom tidak cocok
         if ($e->getCode() == 23000) {
-            $error_msg = "Kode SKU '$kode_sku' sudah digunakan. Gunakan SKU lain!";
+            $error_msg = "Kode SKU '$kode_sku' sudah digunakan. Gunakan kode SKU lain!";
         } else {
             $error_msg = "Error Database: " . $e->getMessage();
         }
@@ -136,6 +136,6 @@ if (isset($_POST['submit'])) {
     </div>
 </div>
 
-<script href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

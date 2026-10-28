@@ -1,9 +1,7 @@
 <?php
-// Panggil koneksi database
 require_once 'connection.php';
 
 try {
-    // Ambil semua data produk diurutkan dari yang terbaru
     $stmt = $pdo->query("SELECT * FROM tb_produk ORDER BY id_produk DESC");
     $produk_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
