@@ -71,7 +71,7 @@ try {
                                         <?php endif; ?>
                                     </td>
                                     <td class="text-center">
-                                        <a href="edit.php?id=<?= $row['id_produk']; ?>" class="btn btn-sm btn-warning">Edit</a>
+                                        <a href="update.php?id=<?= $row['id_produk']; ?>" class="btn btn-sm btn-warning">Edit</a>
                                         <a href="delete.php?id=<?= $row['id_produk']; ?>" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus produk ini?');">Hapus</a>
                                     </td>
                                 </tr>
