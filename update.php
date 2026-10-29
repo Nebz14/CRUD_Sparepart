@@ -98,10 +98,15 @@ if (isset($_POST['update'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Produk - Toko Sparepart</title>
+    <title>Edit Produk - BengkelShop</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .bg-beige { background-color: #CAAA98; color: #4B4038; }
+        .btn-custom { background-color: #4B4038; color: white; border: none; }
+        .btn-custom:hover { background-color: #202940; color: white; }
+    </style>
 </head>
-<body class="bg-light">
+<body style="background-color: #f8f9fa;">
 
 <div class="container mt-5 mb-5">
     <div class="row justify-content-center">
@@ -109,58 +114,54 @@ if (isset($_POST['update'])) {
             
             <?php if (!empty($error_msg)): ?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Gagal Update!</strong> <?= htmlspecialchars($error_msg); ?>
+                    <?= htmlspecialchars($error_msg); ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php endif; ?>
 
-            <div class="card shadow-sm">
-                <div class="card-header bg-warning text-dark">
-                    <h5 class="mb-0">Edit Data Produk</h5>
+            <div class="card shadow-sm border-0" style="border-radius: 12px; overflow: hidden;">
+                <div class="card-header bg-beige py-3">
+                    <h5 class="mb-0 fw-bold">Edit Data Produk</h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-4">
                     <form action="update.php?id=<?= $id; ?>" method="POST" enctype="multipart/form-data">
+                        <!-- Input form biarkan seperti aslinya -->
                         <div class="mb-3">
-                            <label class="form-label">Kode SKU</label>
+                            <label class="form-label text-muted">Kode SKU</label>
                             <input type="text" name="kode_sku" class="form-control" value="<?= htmlspecialchars($produk['kode_sku']); ?>" required>
                         </div>
-                        
                         <div class="mb-3">
-                            <label class="form-label">Nama Barang</label>
+                            <label class="form-label text-muted">Nama Barang</label>
                             <input type="text" name="nama_barang" class="form-control" value="<?= htmlspecialchars($produk['nama_barang']); ?>" required>
                         </div>
-                        
                         <div class="mb-3">
-                            <label class="form-label">Kategori</label>
+                            <label class="form-label text-muted">Kategori</label>
                             <select name="kategori" class="form-select" required>
                                 <option value="Sparepart" <?= $produk['kategori'] == 'Sparepart' ? 'selected' : ''; ?>>Sparepart</option>
                                 <option value="Aksesoris" <?= $produk['kategori'] == 'Aksesoris' ? 'selected' : ''; ?>>Aksesoris</option>
                             </select>
                         </div>
-                        
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Harga (Rp)</label>
+                                <label class="form-label text-muted">Harga (Rp)</label>
                                 <input type="number" name="harga" class="form-control" min="0" value="<?= $produk['harga']; ?>" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Stok Saat Ini</label>
+                                <label class="form-label text-muted">Stok Saat Ini</label>
                                 <input type="number" name="stok" class="form-control" min="0" value="<?= $produk['stok']; ?>" required>
                             </div>
                         </div>
-                        
                         <div class="mb-4">
-                            <label class="form-label d-block">Gambar Produk</label>
+                            <label class="form-label d-block text-muted">Gambar Produk</label>
                             <?php if (!empty($produk['gambar_url'])): ?>
-                                <img src="<?= htmlspecialchars($produk['gambar_url']); ?>" alt="Gambar Saat Ini" width="120" class="mb-3 rounded border">
+                                <img src="<?= htmlspecialchars($produk['gambar_url']); ?>" alt="Gambar Saat Ini" height="100" class="mb-3 rounded border object-fit-cover">
                             <?php endif; ?>
                             <input type="file" name="gambar" class="form-control" accept="image/*">
                             <small class="text-muted">Biarkan kosong jika tidak ingin mengubah gambar.</small>
                         </div>
-                        
-                        <div class="d-flex justify-content-between">
-                            <a href="index.php" class="btn btn-secondary">Batal</a>
-                            <button type="submit" name="update" class="btn btn-warning">Update Produk</button>
+                        <div class="d-flex justify-content-between pt-3 border-top">
+                            <a href="index.php" class="btn btn-outline-secondary">Batal</a>
+                            <button type="submit" name="update" class="btn btn-custom px-4">Update Produk</button>
                         </div>
                     </form>
                 </div>
@@ -168,7 +169,5 @@ if (isset($_POST['update'])) {
         </div>
     </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

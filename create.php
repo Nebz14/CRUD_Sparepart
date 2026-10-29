@@ -68,10 +68,15 @@ if (isset($_POST['submit'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tambah Produk - Toko Sparepart</title>
+    <title>Tambah Produk - BengkelShop</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .bg-navy { background-color: #202940; }
+        .btn-custom { background-color: #9A8678; color: white; border: none; }
+        .btn-custom:hover { background-color: #4B4038; color: white; }
+    </style>
 </head>
-<body class="bg-light">
+<body style="background-color: #f8f9fa;">
 
 <div class="container mt-5 mb-5">
     <div class="row justify-content-center">
@@ -79,55 +84,51 @@ if (isset($_POST['submit'])) {
             
             <?php if (!empty($error_msg)): ?>
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Gagal Simpan!</strong> <?= htmlspecialchars($error_msg); ?>
+                    <?= htmlspecialchars($error_msg); ?>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php endif; ?>
 
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white">
+            <div class="card shadow-sm border-0" style="border-radius: 12px; overflow: hidden;">
+                <div class="card-header bg-navy text-white py-3">
                     <h5 class="mb-0">Tambah Produk Baru</h5>
                 </div>
-                <div class="card-body">
+                <div class="card-body p-4">
                     <form action="create.php" method="POST" enctype="multipart/form-data">
+                        <!-- Sisanya sama persis dengan aslinya (input form) -->
                         <div class="mb-3">
-                            <label class="form-label">Kode SKU</label>
+                            <label class="form-label text-muted">Kode SKU</label>
                             <input type="text" name="kode_sku" class="form-control" placeholder="Contoh: BAN-001" required>
                         </div>
-                        
                         <div class="mb-3">
-                            <label class="form-label">Nama Barang</label>
+                            <label class="form-label text-muted">Nama Barang</label>
                             <input type="text" name="nama_barang" class="form-control" required>
                         </div>
-                        
                         <div class="mb-3">
-                            <label class="form-label">Kategori</label>
+                            <label class="form-label text-muted">Kategori</label>
                             <select name="kategori" class="form-select" required>
-                                <option value="">-- Pilih Kategori --</option>
+                                <option value="">Pilih Kategori</option>
                                 <option value="Sparepart">Sparepart</option>
                                 <option value="Aksesoris">Aksesoris</option>
                             </select>
                         </div>
-                        
                         <div class="row">
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Harga (Rp)</label>
+                                <label class="form-label text-muted">Harga (Rp)</label>
                                 <input type="number" name="harga" class="form-control" min="0" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Stok Awal</label>
+                                <label class="form-label text-muted">Stok Awal</label>
                                 <input type="number" name="stok" class="form-control" min="0" required>
                             </div>
                         </div>
-                        
                         <div class="mb-4">
-                            <label class="form-label">File Gambar Produk</label>
+                            <label class="form-label text-muted">File Gambar Produk</label>
                             <input type="file" name="gambar" class="form-control" accept="image/*">
                         </div>
-                        
-                        <div class="d-flex justify-content-between">
-                            <a href="index.php" class="btn btn-secondary">Kembali</a>
-                            <button type="submit" name="submit" class="btn btn-success">Simpan Produk</button>
+                        <div class="d-flex justify-content-between pt-3 border-top">
+                            <a href="index.php" class="btn btn-outline-secondary">Kembali</a>
+                            <button type="submit" name="submit" class="btn btn-custom px-4">Simpan Produk</button>
                         </div>
                     </form>
                 </div>
@@ -135,7 +136,5 @@ if (isset($_POST['submit'])) {
         </div>
     </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
