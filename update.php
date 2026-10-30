@@ -125,7 +125,6 @@ if (isset($_POST['update'])) {
                 </div>
                 <div class="card-body p-4">
                     <form action="update.php?id=<?= $id; ?>" method="POST" enctype="multipart/form-data">
-                        <!-- Input form biarkan seperti aslinya -->
                         <div class="mb-3">
                             <label class="form-label text-muted">Kode SKU</label>
                             <input type="text" name="kode_sku" class="form-control" value="<?= htmlspecialchars($produk['kode_sku']); ?>" required>

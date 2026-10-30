@@ -95,7 +95,6 @@ if (isset($_POST['submit'])) {
                 </div>
                 <div class="card-body p-4">
                     <form action="create.php" method="POST" enctype="multipart/form-data">
-                        <!-- Sisanya sama persis dengan aslinya (input form) -->
                         <div class="mb-3">
                             <label class="form-label text-muted">Kode SKU</label>
                             <input type="text" name="kode_sku" class="form-control" placeholder="Contoh: BAN-001" required>
