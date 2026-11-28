@@ -1,4 +1,4 @@
-<?php include 'views/layouts/header.php'; ?>
+<?php require __DIR__ . '/../layouts/header.php'; ?>
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div><h4 class="fw-bold text-navy mb-1"><?= !empty($produk['id_produk']) ? 'Edit Produk' : 'Tambah Produk' ?></h4><p class="text-muted mb-0">Lengkapi informasi produk di bawah ini.</p></div>
@@ -26,4 +26,4 @@
 </form>
 </div></div>
 
-<?php include 'views/layouts/footer.php'; ?>
+<?php require __DIR__ . '/../layouts/footer.php'; ?>

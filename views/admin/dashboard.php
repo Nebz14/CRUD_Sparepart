@@ -1,4 +1,4 @@
-<?php include 'views/layouts/header.php'; ?>
+<?php require __DIR__ . '/../layouts/header.php'; ?>
 
 <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
     <div>
@@ -52,4 +52,4 @@
     </div>
 </div>
 
-<?php include 'views/layouts/footer.php'; ?>
+<?php require __DIR__ . '/../layouts/footer.php'; ?>

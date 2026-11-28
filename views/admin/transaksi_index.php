@@ -1,4 +1,4 @@
-<?php include 'views/layouts/header.php'; ?>
+<?php require __DIR__ . '/../layouts/header.php'; ?>
 
 <div class="mb-4"><h4 class="fw-bold text-navy mb-1">Kelola Transaksi</h4><p class="text-muted mb-0">Periksa pesanan pelanggan dan perbarui statusnya.</p></div>
 
@@ -30,4 +30,4 @@
 <?php endforeach; endif; ?>
 </tbody></table></div></div>
 
-<?php include 'views/layouts/footer.php'; ?>
+<?php require __DIR__ . '/../layouts/footer.php'; ?>

@@ -19,9 +19,14 @@ class AdminController
         $this->transaksiModel = new TransaksiModel();
     }
 
-    private function render(string $view, string $title): void
+    private function render(string $view, string $title, array $data = []): void
     {
         $pageTitle = $title . ' - BengkelShop';
+
+        // Variabel dari method pemanggil tidak otomatis terlihat di dalam
+        // view. Ekstrak data yang dikirim agar view bisa memakainya.
+        extract($data, EXTR_SKIP);
+
         require __DIR__ . '/../views/admin/' . $view . '.php';
     }
 
@@ -103,7 +108,7 @@ class AdminController
         $ringkasan = $this->transaksiModel->ringkasanOmzet();
         $jumlahProduk = $this->produkModel->countAll();
         $stokMenipis = $this->produkModel->lowStock();
-        $this->render('dashboard', 'Dashboard Admin');
+        $this->render('dashboard', 'Dashboard Admin', compact('ringkasan', 'jumlahProduk', 'stokMenipis'));
     }
 
     public function produk(): void
@@ -111,7 +116,7 @@ class AdminController
         $search = trim($_GET['q'] ?? '');
         $kategori = trim($_GET['kategori'] ?? '');
         $produkList = $this->produkModel->all($search, $kategori);
-        $this->render('produk_index', 'Kelola Produk');
+        $this->render('produk_index', 'Kelola Produk', compact('search', 'kategori', 'produkList'));
     }
 
     public function produkTambah(): void
@@ -143,7 +148,7 @@ class AdminController
             $produk = array_merge($produk, $_POST);
         }
         $formAction = 'index.php?page=admin-produk-tambah';
-        $this->render('produk_form', 'Tambah Produk');
+        $this->render('produk_form', 'Tambah Produk', compact('produk', 'errors', 'formAction'));
     }
 
     public function produkEdit(): void
@@ -179,7 +184,7 @@ class AdminController
             $produk['gambar_url'] = $produk['gambar_url'] ?? null;
         }
         $formAction = 'index.php?page=admin-produk-edit&id=' . $id;
-        $this->render('produk_form', 'Edit Produk');
+        $this->render('produk_form', 'Edit Produk', compact('produk', 'errors', 'formAction'));
     }
 
     public function produkHapus(): void
@@ -203,7 +208,7 @@ class AdminController
     public function transaksi(): void
     {
         $transaksiList = $this->transaksiModel->semuaTransaksi();
-        $this->render('transaksi_index', 'Kelola Transaksi');
+        $this->render('transaksi_index', 'Kelola Transaksi', compact('transaksiList'));
     }
 
     public function transaksiDetail(): void
@@ -215,7 +220,7 @@ class AdminController
             redirect('index.php?page=admin-transaksi');
         }
         $items = $this->transaksiModel->detailItem($id);
-        $this->render('detail_transaksi', 'Detail Transaksi');
+        $this->render('detail_transaksi', 'Detail Transaksi', compact('transaksi', 'items'));
     }
 
     public function transaksiStatus(): void

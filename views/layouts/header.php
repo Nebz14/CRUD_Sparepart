@@ -15,12 +15,6 @@ $loggedIn    = is_logged_in();
 $role        = current_role();
 $cartCount   = cart_items_count();
 $homeUrl     = 'index.php?page=' . home_for_role();
-
-$roleLabel = [
-    'admin' => 'Admin',
-    'user'  => 'User',
-    'owner' => 'Owner',
-][$role] ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -177,7 +171,6 @@ $roleLabel = [
                     <li class="nav-item">
                         <span class="navbar-text small text-white-50">
                             Halo, <strong class="text-white"><?= e($_SESSION['nama'] ?? '') ?></strong>
-                            (<?= e($roleLabel) ?>)
                         </span>
                     </li>
                     <li class="nav-item ms-lg-3 mt-2 mt-lg-0">

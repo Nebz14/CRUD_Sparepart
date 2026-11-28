@@ -36,12 +36,6 @@
                     Belum punya akun?
                     <a href="index.php?page=register" class="text-decoration-none">Daftar di sini</a>
                 </p>
-
-                <hr class="my-4">
-                <p class="small text-muted text-center mb-1">Akun demo (password: <code>password123</code>):</p>
-                <p class="small text-muted text-center mb-0">
-                    <code>admin</code> &middot; <code>user1</code> &middot; <code>owner</code>
-                </p>
             </div>
         </div>
     </div>
